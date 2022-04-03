@@ -1,0 +1,102 @@
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+	<h1>Menu</h1>
+	<hr>
+	<div id="orderMenu">
+		<table style="text-align: center;">
+			<tr>
+				<th>번호</th>
+				<th>이름</th>
+				<th>가격</th>
+				<th>재고</th>
+				<th>이용 가능</th>
+			</tr>
+			<tr th:onclick="onCart(this)" th:each="menu : ${menu}">
+				<td th:text="${menu.id}">
+				<td th:text="${menu.menuName}">
+				<td th:text="${menu.menuPrice}">		
+				<td th:text="${menu.menuStock}">		
+				<td th:text="${menu.menuValuableYn}">
+				<input type="hidden" th:text="${menu.menuStock}"/>
+			</tr>
+		</table>
+		<a id="orderHistory" th:href="@{/order/order}">주문표</a>
+		<br>
+		<a id="paymentHistory" th:href="@{/pay/pay}">결제주문서</a>
+		<div id="cart">
+			<h2>장바구니</h2>
+		</div>
+	</div>
+	
+</body>
+<script>
+	function onCart(tr) {
+		const menu = {
+			id : tr.children[0].innerText,
+			name : tr.children[1].innerText,
+			price : tr.children[2].innerText,
+			stock : tr.children[3].innerText
+		}
+		
+		$.ajax({
+	        url: "/order/onCart",
+	        data: menu,
+	        type:"POST",
+	        success: function(data) {
+				removeHtml();
+				ordershit(data);
+			},
+			error: function() {
+				console.log("error");
+			}
+		});
+	}
+	
+	function ordershit(data) {
+		$("#cart").append("<div id='menu'></div>")
+		for(var i = 0; i < data.menu.length; i++) {
+			const name = data.menu[i].name;
+			const price = data.menu[i].price;
+			const num = data.menu[i].num;
+			$("#menu").append("<span class='menu'></span>").append(name + " ")
+				.append("<input type='hidden' class='menuName_"+ i + "' name='menuName_"+ i + "' value='" + name + "'>");
+			$("#menu").append("<span class='menu'></span>").append(price + '원' + " ")
+				.append("<input type='hidden' class='menuPrice_"+ i + "' name='menuPrice_"+ i + "' value='" + price + "'>");;
+			$("#menu").append("<span class='menu'></span>").append(num + '개')
+				.append("<input type='hidden' class='menuNum_"+ i + "' name='menuNum_"+ i + "' value='" + num + "'>");;
+			$("#menu").append("<br>");
+		}
+		$("#menu").append("<button id='order' type='summit' onclick='orderMenu(" + JSON.stringify(data) + ")'>주문</button>");
+	}
+	
+	function removeHtml() {
+		$("#menu").remove();
+	}
+	
+	function orderMenu(data) {
+		$.ajax({
+	        url: "/order/order",
+	        data: JSON.stringify(data),
+	        type:"POST",
+	        contentType: "application/json",
+	        success: function(data) {
+				console.log("success")
+			},
+			error: function() {
+				console.log("error");
+			}
+		});
+	}
+	
+	
+	
+	
+</script>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+
+</head>
+<body>
+	<h1>home</h1>
+	<h3 sec:authorize="isAuthenticated()">반갑습니다. <span sec:authentication="name"></span>님!</h3>
+	<hr>
+	<a sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
+	<a sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
+	<a sec:authorize="isAnonymous()" th:href="@{/member/signup}">회원가입</a>
+	<hr>
+	<a sec:authorize="isAuthenticated()" th:href="@{/menu/list}">메뉴 주문</a>
+</body>
+</html>
