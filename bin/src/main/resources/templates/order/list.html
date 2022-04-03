@@ -1,0 +1,39 @@
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+	<h1>주문표</h1>
+	<hr>
+	<div>
+		<form action="/pay/pay" method="post">
+			<table style="text-align: center;">
+				<tr>
+					<th>번호</th>
+					<th>이름</th>
+					<th>가격</th>
+					<th>갯수</th>
+				</tr>
+					<tr th:each="order : ${order}">
+						<td th:text="${order.menuNo.id}"><input th:name="orderNo" /></td>
+						<td th:text="${order.menuNo.menuName}"><input th:name="orderNum" th:value="${order.menuNum}"></td>	
+						<td th:text="${order.menuNo.menuPrice}">		
+						<td th:text="${order.menuNum}">
+					</tr>
+					<tr th:each="order2 : ${order}">
+						<td><input type="hidden" th:name="orderNo" th:value="${order2.id}"/>
+					</tr>
+			</table>	
+			<button id="payment" type="submit">결제하기</button>
+		</form>	
+	</div>
+	
+</body>
+<script>
+	
+</script>	
+</html>

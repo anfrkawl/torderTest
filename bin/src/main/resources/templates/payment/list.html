@@ -1,0 +1,31 @@
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+	<h1>결제영수증</h1>
+	<hr>
+	<div>
+			<table style="text-align: center;">
+				<tr>
+					<th>번호</th>
+					<th>이름</th>
+					<th>가격</th>
+					<th>갯수</th>
+
+				</tr>
+					<tr th:each="payment : ${payment}">
+						<td th:text="${payment.orderNo.menuNo.id}">
+						<td th:text="${payment.orderNo.menuNo.menuName}">
+						<td th:text="${payment.orderNo.menuNo.menuPrice}">		
+						<td th:text="${payment.orderNo.menuNum}">
+					</tr>
+			</table>	
+	</div>
+	
+</body>	
+</html>
