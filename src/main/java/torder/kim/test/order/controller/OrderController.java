@@ -20,7 +20,9 @@ import com.google.gson.GsonBuilder;
 
 import lombok.RequiredArgsConstructor;
 import torder.kim.test.menu.model.dto.Cart;
+import torder.kim.test.menu.model.dto.Carts;
 import torder.kim.test.menu.model.dto.MenuDto;
+import torder.kim.test.menu.model.service.MenuService;
 import torder.kim.test.order.model.entity.OrderHistory;
 import torder.kim.test.order.model.service.OrderService;
 
@@ -28,17 +30,41 @@ import torder.kim.test.order.model.service.OrderService;
 @RequiredArgsConstructor
 public class OrderController {
 	private final OrderService orderService;
+	private final MenuService menuService;
+	private Carts carts = new Carts();
 	private Cart cart = new Cart();
 
 	@PostMapping(value = "/order/onCart", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public String onCart(MenuDto menuDto, Principal principal) {
-		
-		System.out.println(menuDto);
+
 		menuDto.setNum(1);
-		if(menuDto.getStock() > menuDto.getNum()) {			
-			cart.addCart(principal.getName(), menuDto);
+		
+		Gson gson = new GsonBuilder()
+	            .setPrettyPrinting()
+	            .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+	            .serializeNulls()
+	            .disableHtmlEscaping()
+	            .create();
+		int result = cart.addCart(principal.getName(), menuDto);
+		if(result != 0) {
+			carts.onCart(cart);
+			System.out.println(carts);
+			return gson.toJson(cart);	
+			
+		} else {
+			return gson.toJson("overStock");
 		}
+		
+			
+		
+	}
+	
+	@PostMapping(value = "/order/removeCart", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public String removeCart(MenuDto menuDto, Principal principal) {
+		
+		cart.removeCart(principal.getName(), menuDto);
 		
 		Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
@@ -81,8 +107,12 @@ public class OrderController {
 				menuNum[i] = (Long) json.get("num");
 			}
 			
-			orderService.order(userId, menuId, menuNum);
-			cart.removeAll(userId);
+			if(menuService.orderMenu(menuId, menuNum) != 0) {
+//				orderService.order(userId, menuId, menuNum);
+				cart.removeAll(userId);
+				carts.removeCart(userId);
+			}
+			
 			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

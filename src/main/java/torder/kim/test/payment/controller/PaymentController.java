@@ -26,7 +26,7 @@ public class PaymentController {
 		for(int i = 0; i < orderNo.length; i++) {			
 			System.out.printf("orderNo :" + orderNo[i]);
 		}
-//		paymentService.payment(orderNo);
+		paymentService.payment(orderNo);
 		orderService.deleteByMember(principal.getName());
 		mv.setViewName("redirect:/menu/list");
 		return mv;
