@@ -50,8 +50,13 @@
 	        data: menu,
 	        type:"POST",
 	        success: function(data) {
-				removeHtml();
-				ordershit(data);
+				if(data != "overStock") {
+					removeHtml();
+					ordershit(data);
+				} else {
+					alert("재고를 초과하였습니다.");
+				}
+				
 			},
 			error: function() {
 				console.log("error");
@@ -68,9 +73,11 @@
 			$("#menu").append("<span class='menu'></span>").append(name + " ")
 				.append("<input type='hidden' class='menuName_"+ i + "' name='menuName_"+ i + "' value='" + name + "'>");
 			$("#menu").append("<span class='menu'></span>").append(price + '원' + " ")
-				.append("<input type='hidden' class='menuPrice_"+ i + "' name='menuPrice_"+ i + "' value='" + price + "'>");;
+				.append("<input type='hidden' class='menuPrice_"+ i + "' name='menuPrice_"+ i + "' value='" + price + "'>");
 			$("#menu").append("<span class='menu'></span>").append(num + '개')
-				.append("<input type='hidden' class='menuNum_"+ i + "' name='menuNum_"+ i + "' value='" + num + "'>");;
+				.append("<input type='hidden' class='menuNum_"+ i + "' name='menuNum_"+ i + "' value='" + num + "'>");
+			$("#menu").append("<button onclick='addCart(" + JSON.stringify(data.menu[i]) + ")'>+</button>");
+			$("#menu").append("<button onclick='removeCart(" + JSON.stringify(data.menu[i]) + ")'>-</button>");
 			$("#menu").append("<br>");
 		}
 		$("#menu").append("<button id='order' type='summit' onclick='orderMenu(" + JSON.stringify(data) + ")'>주문</button>");
@@ -87,7 +94,43 @@
 	        type:"POST",
 	        contentType: "application/json",
 	        success: function(data) {
-				console.log("success")
+				removeHtml();
+			},
+			error: function() {
+				console.log("error");
+			}
+		});
+	}
+	
+	function addCart(data) {		
+		$.ajax({
+	        url: "/order/onCart",
+	        data: data,
+	        type:"POST",
+	        success: function(data) {
+				if(data != "overStock") {
+					removeHtml();
+					ordershit(data);
+				} else {
+					alert("재고를 초과하였습니다.");
+				}
+			},
+			error: function() {
+				console.log("error");
+			}
+		});
+	}
+	
+	function removeCart(data) {
+		console.log(data);
+		
+		$.ajax({
+	        url: "/order/removeCart",
+	        data: data,
+	        type:"POST",
+	        success: function(data) {
+				removeHtml();
+				ordershit(data);
 			},
 			error: function() {
 				console.log("error");

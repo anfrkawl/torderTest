@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import torder.kim.test.menu.model.entity.Menu;
 
 public interface MenuRepository extends JpaRepository<Menu, Integer> {
-	List<Menu> findAll();
+
 }
