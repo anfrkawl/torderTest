@@ -21,13 +21,10 @@ public class PaymentController {
 	private final OrderService orderService;
 	
 	@PostMapping("/pay/pay")
-	public ModelAndView payment(ModelAndView mv, String[] orderNo, Principal principal) {
+	public ModelAndView payment(ModelAndView mv, String[] orderNo,  String[] menuNo, String[] menuNum, Principal principal) {
 		
-		for(int i = 0; i < orderNo.length; i++) {			
-			System.out.printf("orderNo :" + orderNo[i]);
-		}
-		paymentService.payment(orderNo);
-		orderService.deleteByMember(principal.getName());
+		paymentService.payment(menuNo, menuNum, principal.getName());
+		orderService.deleteByMember(orderNo);
 		mv.setViewName("redirect:/menu/list");
 		return mv;
 	}

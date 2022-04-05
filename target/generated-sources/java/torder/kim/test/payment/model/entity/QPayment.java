@@ -24,7 +24,11 @@ public class QPayment extends EntityPathBase<Payment> {
 
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
-    protected torder.kim.test.order.model.entity.QOrderHistory orderNo;
+    protected torder.kim.test.member.model.entity.QMember memNo;
+
+    protected torder.kim.test.menu.model.entity.QMenu menuNo;
+
+    public final NumberPath<Integer> menuNum = createNumber("menuNum", Integer.class);
 
     public final DateTimePath<java.time.LocalDateTime> payDate = createDateTime("payDate", java.time.LocalDateTime.class);
 
@@ -46,14 +50,22 @@ public class QPayment extends EntityPathBase<Payment> {
 
     public QPayment(Class<? extends Payment> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.orderNo = inits.isInitialized("orderNo") ? new torder.kim.test.order.model.entity.QOrderHistory(forProperty("orderNo"), inits.get("orderNo")) : null;
+        this.memNo = inits.isInitialized("memNo") ? new torder.kim.test.member.model.entity.QMember(forProperty("memNo")) : null;
+        this.menuNo = inits.isInitialized("menuNo") ? new torder.kim.test.menu.model.entity.QMenu(forProperty("menuNo")) : null;
     }
 
-    public torder.kim.test.order.model.entity.QOrderHistory orderNo() {
-        if (orderNo == null) {
-            orderNo = new torder.kim.test.order.model.entity.QOrderHistory(forProperty("orderNo"));
+    public torder.kim.test.member.model.entity.QMember memNo() {
+        if (memNo == null) {
+            memNo = new torder.kim.test.member.model.entity.QMember(forProperty("memNo"));
         }
-        return orderNo;
+        return memNo;
+    }
+
+    public torder.kim.test.menu.model.entity.QMenu menuNo() {
+        if (menuNo == null) {
+            menuNo = new torder.kim.test.menu.model.entity.QMenu(forProperty("menuNo"));
+        }
+        return menuNo;
     }
 
 }

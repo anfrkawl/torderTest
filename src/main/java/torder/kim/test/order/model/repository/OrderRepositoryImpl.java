@@ -10,8 +10,11 @@ import org.springframework.context.annotation.Bean;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import torder.kim.test.member.model.entity.Member;
+import torder.kim.test.menu.model.entity.Menu;
 import torder.kim.test.order.model.entity.OrderHistory;
 import static torder.kim.test.order.model.entity.QOrderHistory.orderHistory;
+import static torder.kim.test.menu.model.entity.QMenu.menu;
+import static torder.kim.test.member.model.entity.QMember.member;
 
 public class OrderRepositoryImpl implements OrderRepositoryCustom{
 
@@ -30,12 +33,13 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
 	}
     
 	@Override
-	public List<OrderHistory> findAllByMember(Member member) {
+	public List<OrderHistory> findAllByMember(Member mem) {
 		
 		List<OrderHistory> results = queryFactory
 				.select(orderHistory)
 				.from(orderHistory)
-//				.where(orderHistory.memNo().id.eq(member.getId()))
+				.join(orderHistory.memNo(), member)
+				.where(member.eq(mem))
 				.fetch();
 		
 		return results;
@@ -44,10 +48,11 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
 	@Override
 	public void deleteByMember(String name) {
 		
-		System.out.println(orderHistory.memNo().username.equals(name));
+		System.out.println(name);
 		queryFactory
 			.delete(orderHistory)
-			.where(orderHistory.memNo().username.eq(name));
+			.where(orderHistory.memNo().username.eq(name))
+			.execute();
 		
 	}
     

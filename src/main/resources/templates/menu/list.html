@@ -5,6 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>test</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style>
+	#cart {
+		display : inline-block;
+		position :absolute;
+		top: 100px;
+		right: 300px;
+	}
+	
+	#orderMenu {
+		display : inline-block;
+		position: absolute;
+		
+	}
+	
+	#menuButton {
+		position :absolute;
+		right: 300px;
+	} 
+</style>
 </head>
 <body>
 	<h1>Menu</h1>
@@ -27,12 +46,15 @@
 				<input type="hidden" th:text="${menu.menuStock}"/>
 			</tr>
 		</table>
-		<a id="orderHistory" th:href="@{/order/order}">주문표</a>
-		<br>
-		<a id="paymentHistory" th:href="@{/pay/pay}">결제주문서</a>
-		<div id="cart">
+		
+	</div>
+	<div id="menuButton">
+		<button id="orderHistory" th:onclick="location.href='/order/order'">주문표</button>
+		<button id="paymentHistory" th:onclick="location.href='/pay/pay'">결제주문서</button>
+		<button id="cartToggle" th:onclick="cartToggle()">장바구니</button>
+	</div>
+	<div id="cart" >
 			<h2>장바구니</h2>
-		</div>
 	</div>
 	
 </body>
@@ -122,7 +144,6 @@
 	}
 	
 	function removeCart(data) {
-		console.log(data);
 		
 		$.ajax({
 	        url: "/order/removeCart",
@@ -138,7 +159,13 @@
 		});
 	}
 	
-	
+	function cartToggle() {
+		if($("#cart").css("display") == "none"){
+    		$("#cart").show();
+		} else {
+    		$("#cart").hide();
+		}
+	}
 	
 	
 </script>

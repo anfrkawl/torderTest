@@ -13,6 +13,6 @@ public interface OrderService {
 
 	List<OrderHistory> selectOrderHistory(String name);
 
-	void deleteByMember(String name);
+	void deleteByMember(String[] orderNo);
 
 }

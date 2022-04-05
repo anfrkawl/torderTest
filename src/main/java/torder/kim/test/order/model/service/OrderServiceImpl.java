@@ -50,10 +50,11 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public void deleteByMember(String name) {
+	public void deleteByMember(String[] orderNo) {		
 		
-		System.out.println("name : " + name);
-		orderRepository.deleteByMember(name);
+		for(int i = 0; i < orderNo.length; i++) {
+			orderRepository.deleteById(Integer.valueOf(orderNo[i]));
+		}
 		
 	}
 

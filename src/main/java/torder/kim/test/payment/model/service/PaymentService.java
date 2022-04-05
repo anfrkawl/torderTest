@@ -6,7 +6,7 @@ import torder.kim.test.payment.model.entity.Payment;
 
 public interface PaymentService {
 
-	void payment(String[] orderNo);
+	void payment(String[] orderNo, String[] menuNum, String string);
 
 	List<Payment> paymentList();
 
