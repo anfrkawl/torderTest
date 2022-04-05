@@ -34,12 +34,10 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
     
 	@Override
 	public List<OrderHistory> findAllByMember(Member mem) {
-		
+
 		List<OrderHistory> results = queryFactory
 				.select(orderHistory)
 				.from(orderHistory)
-				.join(orderHistory.memNo(), member)
-				.where(member.eq(mem))
 				.fetch();
 		
 		return results;
@@ -48,7 +46,6 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
 	@Override
 	public void deleteByMember(String name) {
 		
-		System.out.println(name);
 		queryFactory
 			.delete(orderHistory)
 			.where(orderHistory.memNo().username.eq(name))
