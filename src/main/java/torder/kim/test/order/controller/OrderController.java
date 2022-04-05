@@ -108,7 +108,7 @@ public class OrderController {
 			}
 			
 			if(menuService.orderMenu(menuId, menuNum) != 0) {
-//				orderService.order(userId, menuId, menuNum);
+				orderService.order(userId, menuId, menuNum);
 				cart.removeAll(userId);
 				carts.removeCart(userId);
 			}

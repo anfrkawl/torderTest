@@ -13,7 +13,8 @@ import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
-import torder.kim.test.order.model.entity.OrderHistory;
+import torder.kim.test.member.model.entity.Member;
+import torder.kim.test.menu.model.entity.Menu;
 
 @Table(name = "payment")
 @Entity
@@ -24,9 +25,26 @@ public class Payment {
     private Integer id;
 	
 	@ManyToOne
-	@JoinColumn(name = "order_no")
-	private OrderHistory orderNo;
+	@JoinColumn(name = "menu_no")
+	private Menu menuNo;
+	
+	@ManyToOne
+	@JoinColumn(name = "mem_no")
+	private Member memNo;
+	
+	@Column(name = "menu_num", nullable = false)
+	private Integer menuNum;
 	
 	@Column(name = "pay_date", nullable = false)
 	private LocalDateTime payDate;
+	
+	public Payment() {}
+
+	@Override
+	public String toString() {
+		return "Payment [id=" + id + ", orderNo=" + menuNo + ", memNo=" + memNo + ", menuNum=" + menuNum + ", payDate="
+				+ payDate + "]";
+	}
+	
+	
 }

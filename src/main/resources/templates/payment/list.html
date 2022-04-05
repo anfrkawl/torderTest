@@ -16,15 +16,18 @@
 					<th>이름</th>
 					<th>가격</th>
 					<th>갯수</th>
+					<th>결제일시</th>
 
 				</tr>
 					<tr th:each="payment : ${payment}">
-						<td th:text="${payment.orderNo.menuNo.id}">
-						<td th:text="${payment.orderNo.menuNo.menuName}">
-						<td th:text="${payment.orderNo.menuNo.menuPrice}">		
-						<td th:text="${payment.orderNo.menuNum}">
+						<td th:text="${payment.menuNo.id}">
+						<td th:text="${payment.menuNo.menuName}">
+						<td th:text="${payment.menuNo.menuPrice}">원		
+						<td th:text="${payment.menuNum}">개
+						<td th:text="${payment.payDate}">
 					</tr>
-			</table>	
+			</table>
+			<button id="back" th:onclick="location.href='/menu/list'">뒤로가기</button>	
 	</div>
 	
 </body>	
